@@ -1,4 +1,4 @@
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import styled from "styled-components";
 
 const Board = styled.div`
@@ -38,34 +38,32 @@ function App() {
   const onDragEnd = () => {};
 
   return (
-    <div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Wrapper>
-          <Boards>
-            <Droppable droppableId="toDo">
-              {(provided) => (
-                <Board ref={provided.innerRef} {...provided.droppableProps}>
-                  {toDos.map((toDo, index) => (
-                    <Draggable draggableId="first" index={index}>
-                      {(provided) => (
-                        <Card
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          {toDo}
-                        </Card>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </Board>
-              )}
-            </Droppable>
-          </Boards>
-        </Wrapper>
-      </DragDropContext>
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Wrapper>
+        <Boards>
+          <Droppable droppableId="one">
+            {(provided) => (
+              <Board ref={provided.innerRef} {...provided.droppableProps}>
+                {toDos.map((toDo, index) => (
+                  <Draggable draggableId="first" index={index} key={index}>
+                    {(provided) => (
+                      <Card
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        {toDo}
+                      </Card>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </Board>
+            )}
+          </Droppable>
+        </Boards>
+      </Wrapper>
+    </DragDropContext>
   );
 }
 
