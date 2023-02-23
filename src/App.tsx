@@ -23,16 +23,33 @@ const Wrapper = styled.div`
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+  const onDragEnd = (info: DropResult) => {
+    // console.log(info);
+    const { destination, draggableId, source } = info;
     if (!destination) return;
-    // setToDos((oldToDos) => {
-    //   const copy = [...oldToDos];
-    //   copy.splice(source.index, 1);
-    //   copy.splice(destination?.index as any, 0, draggableId);
-    //   return copy;
-    // });
-    // const sliced = toDos.splice(source.index, 1);
-    // toDos.splice(destination?.index as any, 0, ...sliced);
+    if (destination?.droppableId === source.droppableId) {
+      // we're moving in the same board.
+      setToDos((oldToDos) => {
+        const boardCopy = [...oldToDos[source.droppableId]];
+        boardCopy.splice(source.index, 1);
+        boardCopy.splice(destination?.index as any, 0, draggableId);
+        return { ...oldToDos, [source.droppableId]: boardCopy };
+      });
+    }
+    if (destination.droppableId !== source.droppableId) {
+      // we're moving across different boards.
+      setToDos((oldToDos) => {
+        const sourceCopy = [...oldToDos[source.droppableId]];
+        const destinationCopy = [...oldToDos[destination.droppableId]];
+        sourceCopy.splice(source.index, 1);
+        destinationCopy.splice(destination.index, 0, draggableId);
+        return {
+          ...oldToDos,
+          [source.droppableId]: sourceCopy,
+          [destination.droppableId]: destinationCopy,
+        };
+      });
+    }
   };
 
   return (
@@ -42,7 +59,6 @@ function App() {
           {Object.keys(toDos).map((boardId) => (
             <Board boardId={boardId} toDos={toDos[boardId]} />
           ))}
-          {/* <Board toDos={[]} boardId={""} /> */}
         </Boards>
       </Wrapper>
     </DragDropContext>
