@@ -24,25 +24,28 @@ const Wrapper = styled.div`
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = (info: DropResult) => {
-    // console.log(info);
     const { destination, draggableId, source } = info;
+    console.log(info);
+
     if (!destination) return;
+
     if (destination?.droppableId === source.droppableId) {
       // we're moving in the same board.
       setToDos((oldToDos) => {
         const boardCopy = [...oldToDos[source.droppableId]];
-        boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index as any, 0, draggableId);
+        const spliced = boardCopy.splice(source.index, 1)[0];
+        boardCopy.splice(destination?.index as any, 0, spliced);
         return { ...oldToDos, [source.droppableId]: boardCopy };
       });
     }
+
     if (destination.droppableId !== source.droppableId) {
       // we're moving across different boards.
       setToDos((oldToDos) => {
         const sourceCopy = [...oldToDos[source.droppableId]];
         const destinationCopy = [...oldToDos[destination.droppableId]];
-        sourceCopy.splice(source.index, 1);
-        destinationCopy.splice(destination.index, 0, draggableId);
+        const spliced = sourceCopy.splice(source.index, 1)[0];
+        destinationCopy.splice(destination.index, 0, spliced);
         return {
           ...oldToDos,
           [source.droppableId]: sourceCopy,
