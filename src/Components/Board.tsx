@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
@@ -17,9 +16,9 @@ const Backboard = styled.div`
   flex-direction: column;
 `;
 
-const Title = styled.h2`
+const BoardTitle = styled.h2`
   text-align: center;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 10px;
   font-size: 17px;
 `;
@@ -39,6 +38,15 @@ const Form = styled.form`
   }
 `;
 
+const InputField = styled.input`
+  border: none;
+  padding: 8px;
+  text-align: center;
+  ::placeholder {
+    color: lightgrey;
+  }
+`;
+
 interface IAreaProps {
   isDraggingOver: boolean;
   isDraggingFromThis: boolean;
@@ -49,7 +57,7 @@ interface IBoardProps {
   boardId: string;
 }
 
-interface IForm {
+export interface IForm {
   toDo: string;
 }
 
@@ -68,9 +76,9 @@ function Board({ toDos, boardId }: IBoardProps) {
   };
   return (
     <Backboard>
-      <Title>{boardId}</Title>
+      <BoardTitle>{boardId}</BoardTitle>
       <Form onSubmit={handleSubmit(onValid)}>
-        <input
+        <InputField
           {...register("toDo", { required: true })}
           type="text"
           placeholder={`add a task to ${boardId}`}
@@ -85,26 +93,19 @@ function Board({ toDos, boardId }: IBoardProps) {
             {...provided.droppableProps}
           >
             {toDos.map((toDo, index) => (
-              <DraggableCard key={toDo.id} index={index} toDoText={toDo.text} toDoId={toDo.id} />
+              <DraggableCard
+                key={toDo.id}
+                index={index}
+                toDoText={toDo.text}
+                toDoId={toDo.id}
+                boardId={boardId}
+              />
             ))}
             {provided.placeholder}
           </Area>
         )}
       </Droppable>
     </Backboard>
-    // <div>
-    //   <Title>{boardId}</Title>
-    //   <Droppable droppableId={boardId}>
-    //     {(provided) => (
-    //       <Backboard ref={provided.innerRef} {...provided.droppableProps}>
-    //         {toDos.map((toDo, index) => (
-    //           <DraggableCard key={toDo} index={index} toDo={toDo} />
-    //         ))}
-    //         {provided.placeholder}
-    //       </Backboard>
-    //     )}
-    //   </Droppable>
-    // </div>
   );
 }
 

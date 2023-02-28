@@ -1,4 +1,7 @@
 import { atom, selector } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 export interface IToDo {
   id: number;
@@ -8,6 +11,7 @@ export interface IToDo {
 export const minuteState = atom({
   key: "minutes",
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const hourSelector = selector<number>({
@@ -33,4 +37,5 @@ export const toDoState = atom<IToDoState>({
     "In Progress": [],
     Done: [],
   },
+  effects_UNSTABLE: [persistAtom],
 });
