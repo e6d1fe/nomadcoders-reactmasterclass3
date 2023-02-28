@@ -10,8 +10,8 @@ const Backboard = styled.div`
   padding: 0px 0px;
   padding-top: 15px;
   border-radius: 5px;
-  min-height: 300px;
-  width: 300px;
+  min-height: 350px;
+  width: 320px;
   display: flex;
   flex-direction: column;
 `;
@@ -47,6 +47,14 @@ const InputField = styled.input`
   }
 `;
 
+const DeleteBoardButton = styled.button`
+  border: none;
+  background-color: transparent;
+  padding: 7px;
+  font-size: 11px;
+  font-weight: 200;
+`;
+
 interface IAreaProps {
   isDraggingOver: boolean;
   isDraggingFromThis: boolean;
@@ -74,6 +82,15 @@ function Board({ toDos, boardId }: IBoardProps) {
     });
     setValue("toDo", "");
   };
+
+  const onClickDelete = () => {
+    setToDoState((allBoards) => {
+      const allBoardsCopy = { ...allBoards };
+      delete allBoardsCopy[boardId];
+      return { ...allBoardsCopy };
+    });
+  };
+
   return (
     <Backboard>
       <BoardTitle>{boardId}</BoardTitle>
@@ -105,6 +122,7 @@ function Board({ toDos, boardId }: IBoardProps) {
           </Area>
         )}
       </Droppable>
+      <DeleteBoardButton onClick={onClickDelete}>DELETE BOARD</DeleteBoardButton>
     </Backboard>
   );
 }

@@ -10,6 +10,7 @@ const Card = styled.div<{ isDragging: boolean }>`
   border-radius: 5px;
   margin-bottom: 8px;
   box-shadow: ${(props) => (props.isDragging ? "0px 2px 5px rgba(0, 0, 0, 0.1)" : "none")};
+  font-size: 15px;
 `;
 
 const DeleteButton = styled.button`

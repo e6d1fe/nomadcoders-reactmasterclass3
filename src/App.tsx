@@ -4,24 +4,24 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./Components/Board";
-import { IForm } from "./Components/Board";
 
 const Boards = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  width: 1000px;
+  column-gap: 10px;
+  row-gap: 20px;
 `;
 
 const Wrapper = styled.div`
   display: flex;
   width: 100vw;
-  margin: 0 auto;
+  margin: 50px auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: auto;
 `;
 
 const MainTitle = styled.h1`
@@ -37,8 +37,9 @@ const NewBoardInput = styled.input`
   width: 300px;
   margin-bottom: 35px;
   border: none;
-  height: 30px;
+  border-bottom: 1px solid white;
   border-radius: 5px;
+  height: 30px;
   text-align: center;
 `;
 
@@ -46,7 +47,6 @@ function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = (info: DropResult) => {
     const { destination, source } = info;
-    console.log(info);
 
     if (!destination) return;
 
@@ -79,18 +79,19 @@ function App() {
   const { register, setValue, getValues, handleSubmit } = useForm();
   const setToDoState = useSetRecoilState(toDoState);
   const onValid = () => {
-    const title = getValues() + "";
+    const title = getValues("newBoard");
     setToDoState((allBoards) => {
       return { ...allBoards, [title]: [] };
     });
+    setValue("newBoard", "");
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
-        <MainTitle>To Do List Kanban Board</MainTitle>
+        <MainTitle>📌 To Do List Kanban Board</MainTitle>
         <form onSubmit={handleSubmit(onValid)}>
-          <NewBoardInput placeholder="make a new board!" type="text" {...register("newBoard")} />
+          <NewBoardInput placeholder="add a new board!" type="text" {...register("newBoard")} />
         </form>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
