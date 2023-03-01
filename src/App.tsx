@@ -1,6 +1,6 @@
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./Components/Board";
@@ -9,19 +9,19 @@ const Boards = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
-  width: 1000px;
   column-gap: 10px;
   row-gap: 20px;
 `;
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100vw;
-  margin: 50px auto;
+  /* margin: 50px 50px 50px 50px; */
+  margin: 50px 0px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: auto;
+  min-width: 1200px;
 `;
 
 const MainTitle = styled.h1`
