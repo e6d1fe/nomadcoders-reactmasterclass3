@@ -14,6 +14,7 @@ const Backboard = styled.div`
   width: 320px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const BoardTitle = styled.h2`
