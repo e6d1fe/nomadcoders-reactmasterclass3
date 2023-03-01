@@ -95,7 +95,7 @@ function App() {
         </form>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
-            <Board boardId={boardId} toDos={toDos[boardId]} />
+            <Board boardId={boardId} toDos={toDos[boardId]} key={boardId} />
           ))}
         </Boards>
       </Wrapper>

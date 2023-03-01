@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { toDoState } from "../atoms";
 
 const Card = styled.div<{ isDragging: boolean }>`
-  background-color: ${(props) => (props.isDragging ? "#74b9ff" : props.theme.cardColor)};
+  background-color: ${(props) => (props.isDragging ? "#9DC08B" : props.theme.cardColor)};
   padding: 11px;
   padding-left: 13px;
   border-radius: 5px;
